@@ -3,14 +3,15 @@ package test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class TesteJavaUnitTest {	
+import main.TesteJava;
+
+class TesteJavaJavaUnitTest {	
 
 	@Test
 	void testAWord() {
-		TesteJava test = new TesteJava();
+		
 		String pal[] = {
 				"aibohphobia",
 				"alula",
@@ -19,10 +20,11 @@ class TesteJavaUnitTest {
 				"deified",
 				"deleveled",
 				"detartrated",
-				"devoved"				
+				"devoved",
+				"a a"
 		};
 		for (String s : pal) {
-			assertTrue(teste.A(s));
+			assertTrue(TesteJava.A(s, true, true));
 		}
 		
 		String pal2[] = {
@@ -36,40 +38,39 @@ class TesteJavaUnitTest {
 				"devovez"				
 		};
 		for (String s : pal2) {
-			assertFalse(teste.A(s));
+			assertFalse(TesteJava.A(s, true, true));
 		}
 		
 	}
 	
 	@Test
 	void testAPhrase() {
-		TesteJava test = new TesteJava();
 		String f1[] = {
-				"aibohphobia alula",
-				"cammac civic deified",
-				"deleveled cammac civic deified",
-				"detartrated",
-				"devoved"				
+				"Able was I ere I saw Elba",
+				"Bombard a drab mob",
+				"Delia saw I was ailed",
+				"Denim axes examined",
+				"Lepers repel"				
 		};
-		for (String s : pal) {
-			assertTrue(teste.A(s));
+		for (String s : f1) {
+			assertTrue(TesteJava.A(s, false, false));
 		}
 		
 		String f2[] = {
-				"aibo alula",
-				"cammacivic deified",
-				"deleveledac civified",
-				"detaated",
-				"deved"				
+				"Able was I ere I saw Elba",
+				"Bombard a drab mob",
+				"Delia saw I was ailed",
+				"Denim axes examined",
+				"Lepers repel"				
 		};
-		for (String s : pal) {
-			assertFalse(teste.A(s));
+		for (String s : f2) {
+			assertFalse(TesteJava.A(s, false, true));
 		}
 	}
 	
 	@Test
 	void testACase() {
-		TesteJava test = new TesteJava();
+		
 		String pal[] = {
 				"AibohphobiA",
 				"alula",
@@ -81,21 +82,21 @@ class TesteJavaUnitTest {
 				"deVOVed"				
 		};
 		for (String s : pal) {
-			assertTrue(teste.A(s));
+			assertTrue(TesteJava.A(s, true, false));
 		}
 		
 		String pal2[] = {
 				"aibohphobiA",
-				"alula",
+				"aluLa",
 				"camMac",
-				"civic",
+				"civIc",
 				"deifIed",
 				"deLeVeled",
 				"detartraTed",
 				"deVOved"				
 		};
 		for (String s : pal2) {
-			assertFalse(teste.A(s));
+			assertFalse(TesteJava.A(s, true, true));
 		}
 	}
 
