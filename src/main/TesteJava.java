@@ -1,8 +1,18 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -14,12 +24,18 @@ import java.util.stream.Collectors;
 public class TesteJava {
 
 	public static void main(String[] args) {
+		System.out.println("A");
 		System.out.println(A("abba", true, true));
 		System.out.println(A("abbba", true, true));
 		System.out.println(A("abbbA", true, true));
 		System.out.println(A("abbbA", true, false));
 		System.out.println(A("ab bba", true, true));
 		System.out.println(A("ab bba", false, true));
+		System.out.println("B");
+		List<Par> lp = B(new int[]{0,-1,2,3,4,5,6,7,8,9},5);
+		for (Par p : lp) {
+			System.out.println(p.getI()+" - "+p.getJ());
+		}
 	}
 	
 	
@@ -97,6 +113,57 @@ public class TesteJava {
 	}	
 	
 	
+	/*
+	 * 3. Dado um arquivo texto muito grande, que não caiba na memória – exemplo: 10GB , encontre as 50 mil frases mais frequentes.
+	 * O formato do arquivo são Linhas com até 50 frases divididas por pipe ( “|” ). */
+	
+	
+	
+	public static HashMap<String, Integer> C(String file) {		
+		HashMap<String, Integer> pHM = new HashMap<String, Integer>();
+		try (BufferedReader b = new BufferedReader(new FileReader(new File(file)))) { 
+		   String line = "";
+		   String[] phrases;
+		   
+		   while ((line = b.readLine()) != null) { 
+			   phrases = line.split("\\|");
+			   pHM.putAll(arrayAsMap(phrases));
+				
+			   pHM = pHM.entrySet().stream()
+				  .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+				  .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) ->
+				  e2,LinkedHashMap::new));
+				 
+				
+				  if (pHM.size()>5) {
+					  pHM.keySet().removeAll(Arrays.asList(pHM.keySet().toArray()).subList(5, pHM.size()));
+				  
+				  
+				  }
+				 
+		     
+		   }
+		
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return pHM;
+	}
+	
+	protected static HashMap<String, Integer> arrayAsMap(String[] array) {
+        HashMap<String, Integer> ret = new HashMap<String, Integer>();
+        for (int i = 0; i<array.length; i++) {
+            if (ret.containsKey(array[i])){
+                ret.replace(array[i], ret.get(array[i])+1);
+            } else {
+                ret.put(array[i], 1);
+            }
+        }
+        return ret;
+    }
 	
 }
 

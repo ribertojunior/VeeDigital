@@ -1,17 +1,30 @@
 package test;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import main.TesteJava;
 import main.Par;
+import main.TesteJava;
+
 
 class TesteJavaUnitTest  {	
+	
 
 	@Test
 	void testAWord() {
@@ -125,4 +138,26 @@ class TesteJavaUnitTest  {
 		}
 		
 	}
+
+	@Test
+	void testC() {
+		String file = "C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_c.txt";
+		HashMap<String, Integer> ret = TesteJava.C(file);
+		for (String name: ret.keySet()){
+
+            String key =name.toString();
+            String value = ret.get(name).toString();  
+            System.out.println(key + " " + value);
+		}
+	}
+	
+	@Test
+	void testCNoFile() {		
+		
+	}
+	
+	
+	
 }
+
+
