@@ -3,11 +3,15 @@ package test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+import java.util.Random;
+
 import org.junit.jupiter.api.Test;
 
 import main.TesteJava;
+import main.Par;
 
-class TesteJavaJavaUnitTest {	
+class TesteJavaUnitTest  {	
 
 	@Test
 	void testAWord() {
@@ -100,4 +104,25 @@ class TesteJavaJavaUnitTest {
 		}
 	}
 
+	@Test
+	void testB() {
+		int l = 100;
+		int l2 = 10;
+		Random r = new Random();
+		int k;
+		int[] a = new int[l];
+		
+		for (int j = 0; j < l2; j++) {
+			k = r.ints(0, (11)).findFirst().getAsInt();		
+			for (int i = 0; i<l; i++) {			
+				a[i] = r.ints(0, (k + 1)).findFirst().getAsInt();
+			}
+			
+			List<Par> ret = TesteJava.B(a, k);
+			for (Par p : ret) {
+				System.out.println(p.getI() + " - " + p.getJ());
+			}
+		}
+		
+	}
 }

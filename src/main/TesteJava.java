@@ -1,10 +1,14 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author riber
+ * @author riberto junior
+ * Classe contendo as respostas aos testes da Vee Digital,
+ * sendo o Teste 1 chamado de A, o Teste 2 chamado de B e o Teste 3 chamado de C.
  *
  */
 public class TesteJava {
@@ -20,7 +24,7 @@ public class TesteJava {
 	
 	
 	/**
-	 * Testa se uma string é um palíndromo
+	 * Test 1 - Verifica se uma string é um palíndromo
 	 * @param a - String s ser testada
 	 * @param space - boolean; se verdadeiro aceita espaços; se falso os remove da string.
 	 * @param caseSensitive  boolean; se falso ignora diferenças de caixa.
@@ -61,6 +65,41 @@ public class TesteJava {
 		
 		return false;
 	}
-	
 
+	
+	
+	
+	/**Test 2 - Encontra os k-complementary paris. Esse método implementa um algoritmo O(nLogn).
+	 * @param a int[] - arrays de inteiros.
+	 * @param k int - inteiro a ser encontrado complementares no array.
+	 * @return List<Par> - uma lista dos pares complementares.
+	 */
+	public static List<Par> B(int[] a, int k) {
+		Arrays.sort(a);
+		int i = 0;
+		int j = a.length - 1;
+		int soma = 0;
+		List<Par> ret = new ArrayList<Par>();		
+		while ( i < j) {
+			soma  = a[i] + a[j];
+			if (soma == k) {
+				ret.add(new Par(a[i], a[j]));
+				i++;
+				j--;
+			} else if (soma < k) {
+				i++;
+			} else {
+				j--;
+			}
+		}
+		return ret;
+	}	
+	
+	
+	
 }
+
+
+
+
+
