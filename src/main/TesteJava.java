@@ -69,7 +69,8 @@ public class TesteJava {
 	
 	
 	
-	/**Test 2 - Encontra os k-complementary paris. Esse método implementa um algoritmo O(nLogn).
+	/**Test 2 - Encontra os k-complementary paris.
+	 * Esse método implementa um algoritmo O(nLogn), pela ordenação. @see <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html#sort(int[],%20int,%20int)">Arrays.sort(int[])</a>
 	 * @param a int[] - arrays de inteiros.
 	 * @param k int - inteiro a ser encontrado complementares no array.
 	 * @return List<Par> - uma lista dos pares complementares.
