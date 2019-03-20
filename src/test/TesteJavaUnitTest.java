@@ -27,8 +27,8 @@ import main.TesteJava;
 
 
 /**
- * @author riber
- * Testes para TesteJava
+ * @author ribertojunior
+ * Testes para <b>TesteJava</b>
  *
  */
 class TesteJavaUnitTest  {	
@@ -206,8 +206,8 @@ class TesteJavaUnitTest  {
 	
 	/**
 	 * Método auxiliar para criação de um arquivo texto grande
-	 * @param file nome desejado para o arquivo
-	 * @param del sem verdadeiro deleta o arquivo, se existir, e cria um novo.
+	 * @param <b>file</b> nome desejado para o arquivo
+	 * @param <b>del</b> sem verdadeiro deleta o arquivo, se existir, e cria um novo.
 	 */
 
 	private static void createFileC(String file, boolean del) {
@@ -251,7 +251,7 @@ class TesteJavaUnitTest  {
 	
 	/**
 	 * @author riber
-	 * stub de TesteJava
+	 * stub de <b>TesteJava</b>
 	 */
 	public static class stubTesteJava extends TesteJava{
 

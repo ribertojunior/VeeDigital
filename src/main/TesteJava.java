@@ -12,21 +12,20 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author @see <a href="github.com/ribertojunior">ribertojunior</a>
- * Classe contendo as respostas aos testes da Vee Digital, sendo o Teste 1 chamado de A, o Teste 2 chamado de B e o Teste 3 chamado de C.
- * Para escolher qual teste rodar usa-se como primeito argumento o número equivalante de cada teste, 1 para o Teste 1, 2 para o Teste 2, 3 para o Teste 3.
+ * @author ribertojunior <br>
+ * Classe contendo as respostas aos testes da Vee Digital, sendo o Teste 1 chamado de A, o Teste 2 chamado de B e o Teste 3 chamado de C.<br>
+ * <p>Para escolher qual teste rodar usa-se como primeito argumento o número equivalante de cada teste, 1 para o Teste 1, 2 para o Teste 2, 3 para o Teste 3.</p>
  * 
- * Para o teste 1 deve-se fornecer mais três argumentos: a palavra que se deseja testar, true ou false para ignorar espaços (false ignora), true ou false para ignorar caixa do texto (false ignora).
+ * <p>Para o teste <b>1</b> deve-se fornecer mais três argumentos: a palavra que se deseja testar, <b>true</b> ou <b>false</b> para ignorar espaços (false ignora), true ou false para ignorar caixa do texto (false ignora).</p>
  * 
- * Os parâmetros do Teste 2 são possíveis em duas versões:
- * - Na primeira, são dois parâmetros o número de elementos no array e o arquivo texto onde se encontra o array (em uma linha, com os elemntos separados por espaço).
- * - Na segunda, temos o primeiro parâmetro com o números de elementos no array (ex: k) e em seguida k parametros, sendo cada um elemento do array.
+ * <p>Os parâmetros do Teste <b>2</b> são possíveis em duas versões:
+ * - Na primeira, são dois parâmetros o número para qual se deve encontrar o complementar no array e o arquivo texto onde se encontra o array (em uma linha, com os elemntos separados por espaço).
+ * - Na segunda, temos o temos o mesmo parâmetro da primeira e em seguida <b>k parâmetros</b>, sendo cada um elemento do array.</p>
  * 
- * Para o Teste 3 temos apenas um parâmetro com o endereço local do arquivo a ser analisado.
+ * <p>Para o Teste <b>3</b> temos apenas um parâmetro com o endereço local do arquivo a ser analisado.</p>
  */
 public class TesteJava {
 
@@ -58,11 +57,15 @@ public class TesteJava {
 					int [] a = new int[k];
 					
 					if (args.length > 3) {
-						for (int i = 0; i < k; i++) {
+						for (int i = 0; i + 2 < args.length; i++) {
 							a[i] = Integer.parseInt(args[i + 2]);
 						} 
 					} else if (args.length == 3) {
-						try (BufferedReader b = new BufferedReader(new FileReader(new File(args[2])))) { 
+						String file = args[2];
+						if (!file.contains("\\\\")) {
+							file.replace("\\", "\\\\");
+						}
+						try (BufferedReader b = new BufferedReader(new FileReader(new File(file)))) { 
 							String line = "";							
 							String[] aS;							
 							while ((line = b.readLine()) != null) {
@@ -117,10 +120,10 @@ public class TesteJava {
 
 	/**
 	 * Test 1 - Verifica se uma string é um palíndromo
-	 * @param a - String s ser testada
-	 * @param space - boolean; se verdadeiro aceita espaços; se falso os remove da string.
-	 * @param caseSensitive  boolean; se falso ignora diferenças de caixa.
-	 * @return boolean retorna true se a for um palíndromo.
+	 * @param a String s ser testada
+	 * @param space se verdadeiro aceita espaços; se falso os remove da string.
+	 * @param caseSensitive se falso ignora diferenças de caixa.
+	 * @return  true se a for um palíndromo.
 	 */
 	public static boolean A(String a, boolean space, boolean caseSensitive) {
 		int half = 0;		
@@ -161,11 +164,11 @@ public class TesteJava {
 
 
 
-	/**Test 2 - Encontra os k-complementary paris.
+	/**Test 2 - Encontra os k-complementary pairs.
 	 * Esse método implementa um algoritmo O(nLogn), pela ordenação. @see <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html#sort(int[],%20int,%20int)">Arrays.sort(int[])</a>
-	 * @param a int[] - arrays de inteiros.
-	 * @param k int - inteiro a ser encontrado complementares no array.
-	 * @return List<Par> - uma lista dos pares complementares.
+	 * @param  a arrays de inteiros.
+	 * @param k  - inteiro a ser encontrado complementares no array.
+	 * @return List de Par - uma lista dos pares complementares.
 	 */
 	public static List<Par> B(int[] a, int k) {
 		Arrays.sort(a);
@@ -189,19 +192,16 @@ public class TesteJava {
 	}	
 
 
-	/*
-	 * 3. Dado um arquivo texto muito grande, que não caiba na memória – exemplo: 10GB , encontre as 50 mil frases mais frequentes.
-	 * O formato do arquivo são Linhas com até 50 frases divididas por pipe ( “|” ). */
-
-
-
 	/**
-	 * Test 3 - Encontra as 50 mil frases mais comuns em um arquivo texto grande
-	 * @param file - arquivo para procura
-	 * @return Um HashMap com as frases e o número de reoetições
+	 * Test 3 - Encontra as 50 mil frases mais comuns em um arquivo texto grande.
+	 * @param file - arquivo para procura.
+	 * @return Um HashMap com as frases e o número de reoetições.
 	 */
 	public static HashMap<String, Integer> C(String file) {		
 		HashMap<String, Integer> pHM = new HashMap<String, Integer>();
+		if (!file.contains("\\\\")) {
+			file.replace("\\", "\\\\");
+		}
 		try (BufferedReader b = new BufferedReader(new FileReader(new File(file)))) { 
 			String line = "";
 			String[] phrases;
@@ -237,9 +237,9 @@ public class TesteJava {
 
 	/**
 	 * Método que transforma um array de string em um HashMap
-	 * @param ret
-	 * @param array
-	 * @return Um HashMap com as frases e o número de reoetições
+	 * @param ret HashMap que irá receber o array.
+	 * @param array array a ser adicionado.
+	 * @return Um HashMap com as frases e o número de reoetições.
 	 */
 	protected static HashMap<String, Integer> arrayAsMap( HashMap<String, Integer> ret, String[] array) {
 		//HashMap<String, Integer> ret = new HashMap<String, Integer>();
