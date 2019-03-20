@@ -127,7 +127,7 @@ public class TesteJava {
 		   
 		   while ((line = b.readLine()) != null) { 
 			   phrases = line.split("\\|");
-			   pHM.putAll(arrayAsMap(phrases));
+			   pHM = arrayAsMap(pHM, phrases);
 				
 			   pHM = pHM.entrySet().stream()
 				  .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
@@ -135,8 +135,8 @@ public class TesteJava {
 				  e2,LinkedHashMap::new));
 				 
 				
-				  if (pHM.size()>5) {
-					  pHM.keySet().removeAll(Arrays.asList(pHM.keySet().toArray()).subList(5, pHM.size()));
+				  if (pHM.size()>50000) {
+					  pHM.keySet().removeAll(Arrays.asList(pHM.keySet().toArray()).subList(50, pHM.size()));
 				  
 				  
 				  }
@@ -153,8 +153,8 @@ public class TesteJava {
 		return pHM;
 	}
 	
-	protected static HashMap<String, Integer> arrayAsMap(String[] array) {
-        HashMap<String, Integer> ret = new HashMap<String, Integer>();
+	protected static HashMap<String, Integer> arrayAsMap( HashMap<String, Integer> ret, String[] array) {
+        //HashMap<String, Integer> ret = new HashMap<String, Integer>();
         for (int i = 0; i<array.length; i++) {
             if (ret.containsKey(array[i])){
                 ret.replace(array[i], ret.get(array[i])+1);
