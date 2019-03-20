@@ -16,29 +16,105 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author riberto junior
- * Classe contendo as respostas aos testes da Vee Digital,
- * sendo o Teste 1 chamado de A, o Teste 2 chamado de B e o Teste 3 chamado de C.
- *
+ * @author @see <a href="github.com/ribertojunior">ribertojunior</a>
+ * Classe contendo as respostas aos testes da Vee Digital, sendo o Teste 1 chamado de A, o Teste 2 chamado de B e o Teste 3 chamado de C.
+ * Para escolher qual teste rodar usa-se como primeito argumento o número equivalante de cada teste, 1 para o Teste 1, 2 para o Teste 2, 3 para o Teste 3.
+ * 
+ * Para o teste 1 deve-se fornecer mais três argumentos: a palavra que se deseja testar, true ou false para ignorar espaços (false ignora), true ou false para ignorar caixa do texto (false ignora).
+ * 
+ * Os parâmetros do Teste 2 são possíveis em duas versões:
+ * - Na primeira, são dois parâmetros o número de elementos no array e o arquivo texto onde se encontra o array (em uma linha, com os elemntos separados por espaço).
+ * - Na segunda, temos o primeiro parâmetro com o números de elementos no array (ex: k) e em seguida k parametros, sendo cada um elemento do array.
+ * 
+ * Para o Teste 3 temos apenas um parâmetro com o endereço local do arquivo a ser analisado.
  */
 public class TesteJava {
 
 	public static void main(String[] args) {
-		System.out.println("A");
-		System.out.println(A("abba", true, true));
-		System.out.println(A("abbba", true, true));
-		System.out.println(A("abbbA", true, true));
-		System.out.println(A("abbbA", true, false));
-		System.out.println(A("ab bba", true, true));
-		System.out.println(A("ab bba", false, true));
-		System.out.println("B");
-		List<Par> lp = B(new int[]{0,-1,2,3,4,5,6,7,8,9},5);
-		for (Par p : lp) {
-			System.out.println(p.getI()+" - "+p.getJ());
+		int met = Integer.parseInt(args[0]);
+
+		switch (met) {
+			case 1 : {
+				String ret = " não é ";
+				boolean space = false;;
+				boolean cS =  false;
+				try {
+					space = Boolean.parseBoolean(args[2].trim().toLowerCase());
+					cS = Boolean.parseBoolean(args[3].trim().toLowerCase());
+				} catch (Exception e) {
+					System.out.println("Parâmetro inválido para Teste 1.");
+					break;
+				}
+				
+				if (A(args[1],space,cS)) {
+					ret = " é ";
+				}
+				System.out.println(args[1] +  ret + "um palíndromo.");
+				break;
+			}
+			case 2 : {
+				try {
+					int k = Integer.parseInt(args[1]);
+					int [] a = new int[k];
+					
+					if (args.length > 3) {
+						for (int i = 0; i < k; i++) {
+							a[i] = Integer.parseInt(args[i + 2]);
+						} 
+					} else if (args.length == 3) {
+						try (BufferedReader b = new BufferedReader(new FileReader(new File(args[2])))) { 
+							String line = "";							
+							String[] aS;							
+							while ((line = b.readLine()) != null) {
+								aS = line.split(" ");
+								int i = 0;
+								for (String s : aS) {
+									a[i] = Integer.parseInt(s);
+									i++;
+								}
+							} 
+								
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						
+					} else {						
+						throw new Exception();
+					}
+					List<Par> p = B(a,k);
+					for (Par i : p) {
+						System.out.println(i.getI() + " - " + i.getJ());
+					}
+					break;
+					
+				} catch (Exception e) {
+					System.out.println("Parâmetro inválido para Teste 2.");
+					break;
+				}				
+				
+			}
+			case 3 : {
+				
+				HashMap<String, Integer> ret = C(args[1]);;
+				for (String name: ret.keySet()){
+
+					String key =name.toString();
+					String value = ret.get(name).toString();  
+					System.out.println(key + " " + value);
+				}
+				break;
+			}
+			default : {
+				System.out.println("Erro de parâmetro.");
+			}
+			
 		}
+
 	}
-	
-	
+
+
 	/**
 	 * Test 1 - Verifica se uma string é um palíndromo
 	 * @param a - String s ser testada
@@ -49,15 +125,15 @@ public class TesteJava {
 	public static boolean A(String a, boolean space, boolean caseSensitive) {
 		int half = 0;		
 		int half2 = 0;
-		
+
 		if (!space) {
 			a = a.trim();
 			a = a.replaceAll("\\s+","");
 		}
-		
+
 		if (!caseSensitive)
 			a = a.toLowerCase();
-		
+
 		if (a.length() % 2 == 0) {
 			half = a.length() / 2;
 			half2 = half;	
@@ -65,7 +141,7 @@ public class TesteJava {
 			half = (a.length()-1) / 2;
 			half2 = half + 1;
 		}
-			
+
 		List<Character> aList1 = a.substring(0,half).chars().mapToObj(e -> (char) e).collect(Collectors.toList());
 		List<Character> aList2 = a.substring(half2,a.length()).chars().mapToObj(e -> (char) e).collect(Collectors.toList());
 		for (Character c : aList1) {
@@ -73,18 +149,18 @@ public class TesteJava {
 				aList2.remove(c);
 			}
 		}
-		
+
 		if (aList2.size()==0) {
 			return true;
 		}
-		
-		
+
+
 		return false;
 	}
 
-	
-	
-	
+
+
+
 	/**Test 2 - Encontra os k-complementary paris.
 	 * Esse método implementa um algoritmo O(nLogn), pela ordenação. @see <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html#sort(int[],%20int,%20int)">Arrays.sort(int[])</a>
 	 * @param a int[] - arrays de inteiros.
@@ -111,60 +187,72 @@ public class TesteJava {
 		}
 		return ret;
 	}	
-	
-	
+
+
 	/*
 	 * 3. Dado um arquivo texto muito grande, que não caiba na memória – exemplo: 10GB , encontre as 50 mil frases mais frequentes.
 	 * O formato do arquivo são Linhas com até 50 frases divididas por pipe ( “|” ). */
-	
-	
-	
+
+
+
+	/**
+	 * Test 3 - Encontra as 50 mil frases mais comuns em um arquivo texto grande
+	 * @param file - arquivo para procura
+	 * @return Um HashMap com as frases e o número de reoetições
+	 */
 	public static HashMap<String, Integer> C(String file) {		
 		HashMap<String, Integer> pHM = new HashMap<String, Integer>();
 		try (BufferedReader b = new BufferedReader(new FileReader(new File(file)))) { 
-		   String line = "";
-		   String[] phrases;
-		   
-		   while ((line = b.readLine()) != null) { 
-			   phrases = line.split("\\|");
-			   pHM = arrayAsMap(pHM, phrases);
-				
-			   pHM = pHM.entrySet().stream()
-				  .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-				  .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) ->
-				  e2,LinkedHashMap::new));
-				 
-				
-				  if (pHM.size()>50000) {
-					  pHM.keySet().removeAll(Arrays.asList(pHM.keySet().toArray()).subList(50, pHM.size()));
-				  
-				  
-				  }
-				 
-		     
-		   }
-		
+			String line = "";
+			String[] phrases;
+
+			while ((line = b.readLine()) != null) { 
+				phrases = line.split("\\|");
+				pHM = arrayAsMap(pHM, phrases);
+
+				pHM = pHM.entrySet().stream()
+						.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+						.collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) ->
+						e2,LinkedHashMap::new));
+
+
+				if (pHM.size()>50000) {
+					pHM.keySet().removeAll(Arrays.asList(pHM.keySet().toArray()).subList(50, pHM.size()));
+
+
+				}
+
+
+			}
+
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println("Arquivo não encontrado.");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Erro de IO.");
 		}
-		
+
 		return pHM;
 	}
-	
+
+
+	/**
+	 * Método que transforma um array de string em um HashMap
+	 * @param ret
+	 * @param array
+	 * @return Um HashMap com as frases e o número de reoetições
+	 */
 	protected static HashMap<String, Integer> arrayAsMap( HashMap<String, Integer> ret, String[] array) {
-        //HashMap<String, Integer> ret = new HashMap<String, Integer>();
-        for (int i = 0; i<array.length; i++) {
-            if (ret.containsKey(array[i])){
-                ret.replace(array[i], ret.get(array[i])+1);
-            } else {
-                ret.put(array[i], 1);
-            }
-        }
-        return ret;
-    }
-	
+		//HashMap<String, Integer> ret = new HashMap<String, Integer>();
+		for (int i = 0; i<array.length; i++) {
+			if (ret.containsKey(array[i])){
+				ret.replace(array[i], ret.get(array[i])+1);
+			} else {
+				ret.put(array[i], 1);
+			}
+		}
+		return ret;
+	}
+
 }
 
 

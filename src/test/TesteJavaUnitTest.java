@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -27,14 +28,14 @@ import main.TesteJava;
 
 /**
  * @author riber
- * Classes de teste para TesteJava
+ * Testes para TesteJava
  *
  */
 class TesteJavaUnitTest  {	
 
 
 	/**
-	 * Teste o metodo que resolve a questão 1 apenas com palavras
+	 * Testa o metodo que resolve a questão 1 apenas com palavras
 	 */
 	@Test
 	void testAWord() {
@@ -69,7 +70,10 @@ class TesteJavaUnitTest  {
 		}
 
 	}
-
+	
+	/**
+	 * Testa o metodo que resolve a questão 1 com frases
+	 */
 	@Test
 	void testAPhrase() {
 		String f1[] = {
@@ -95,6 +99,9 @@ class TesteJavaUnitTest  {
 		}
 	}
 
+	/**
+	 * Testa o metodo que resolve a questão 1 com case sensitive
+	 */
 	@Test
 	void testACase() {
 
@@ -127,6 +134,9 @@ class TesteJavaUnitTest  {
 		}
 	}
 
+	/**
+	 * Testa o metodo que resolve a questão 2 com entradas randômicas.
+	 */
 	@Test
 	void testB() {
 		int l = 100;
@@ -141,34 +151,65 @@ class TesteJavaUnitTest  {
 				a[i] = r.ints(0, (k + 1)).findFirst().getAsInt();
 			}
 
-			List<Par> ret = TesteJava.B(a, k);
+			List<Par> ret = null;
+			ret = TesteJava.B(a, k);
+			assertNotNull(ret);
+			assertFalse(ret.size()==0);
 			for (Par p : ret) {
 				System.out.println(p.getI() + " - " + p.getJ());
-			}
+			}			
 		}
 
 	}
 
+	/**
+	 * Testa o metodo que resolve a questão 3 com geração de arquivo randôminco
+	 */
 	@Test
 	void testC() {
 		
 		String file = "C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_c.txt";
 		//createFileC(file, false);
 		createFileC(file, true);
-		HashMap<String, Integer> ret = TesteJava.C(file);
+		HashMap<String, Integer> ret = null;
+		ret =TesteJava.C(file);
 		for (String name: ret.keySet()){
 
 			String key =name.toString();
 			String value = ret.get(name).toString();  
 			System.out.println(key + " " + value);
 		}
+		assertNotNull(ret);
+		assertFalse(ret.size()==0);
 	}
 
+	/**
+	 * Testa o metodo que resolve a questão 3 sem arquivos, gerando linhas em tempo de execução.
+	 */
 	@Test
 	void testCNoFile() {		
-		HashMap<String, Integer> ret = stubTesteJava.C("");
+		HashMap<String, Integer> ret = null;
+		ret = stubTesteJava.C("");
+		assertNotNull(ret);
+		assertFalse(ret.size()==0);
 	}
 	
+	@Test
+	void testMain() {
+		TesteJava.main(new String[]{"1","ovo e ovo", "false", "false"});
+		
+		TesteJava.main(new String[]{"2","C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_b.txt"});
+		
+		TesteJava.main(new String[]{"3","C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_c.txt"});
+	}
+	
+	
+	/**
+	 * Método auxiliar para criação de um arquivo texto grande
+	 * @param file nome desejado para o arquivo
+	 * @param del sem verdadeiro deleta o arquivo, se existir, e cria um novo.
+	 */
+
 	private static void createFileC(String file, boolean del) {
 		try {
 			File f = new File(file);
@@ -207,6 +248,11 @@ class TesteJavaUnitTest  {
 		
 	}
 
+	
+	/**
+	 * @author riber
+	 * stub de TesteJava
+	 */
 	public static class stubTesteJava extends TesteJava{
 
 
