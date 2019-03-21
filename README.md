@@ -13,6 +13,6 @@ Os parâmetros do Teste 2 são possíveis em duas versões:<br>
 Para o Teste 3 temos apenas um parâmetro com o endereço local do arquivo a ser analisado.
 
 ### Exemplos
-java VeeDigital 1 1 "ovo e ovo" false false - para o teste 1.<br>
-java VeeDigital 2 6 2 1 1 2 0 - para o teste 2.<br>
-java VeeDigital 3 "C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_c.txt" - para o teste 3.
+java -jar VeeDigital.jar 1 "ovo e ovo" false false - para o teste 1.<br>
+java -jar VeeDigital.jar 2 3 2 1 1 2 0 - para o teste 2.<br>
+java -jar VeeDigital.jar 3 "C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_c.txt" - para o teste 3.

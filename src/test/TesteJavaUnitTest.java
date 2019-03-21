@@ -169,8 +169,8 @@ class TesteJavaUnitTest  {
 	void testC() {
 		
 		String file = "C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_c.txt";
-		//createFileC(file, false);
-		createFileC(file, true);
+		createFileC(file, false);
+		//createFileC(file, true);
 		HashMap<String, Integer> ret = null;
 		ret =TesteJava.C(file);
 		for (String name: ret.keySet()){
@@ -197,17 +197,20 @@ class TesteJavaUnitTest  {
 	@Test
 	void testMain() {
 		TesteJava.main(new String[]{"1","ovo e ovo", "false", "false"});
+		TesteJava.main(new String[]{"1"});
 		
-		TesteJava.main(new String[]{"2","C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_b.txt"});
+		TesteJava.main(new String[]{"2","3","C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_b.txt"});
+		TesteJava.main(new String[]{"2"});
 		
 		TesteJava.main(new String[]{"3","C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_c.txt"});
+		TesteJava.main(new String[]{"3"});
 	}
 	
 	
 	/**
 	 * Método auxiliar para criação de um arquivo texto grande
 	 * @param <b>file</b> nome desejado para o arquivo
-	 * @param <b>del</b> sem verdadeiro deleta o arquivo, se existir, e cria um novo.
+	 * @param <b>del</b> se verdadeiro deleta o arquivo, se existir, e cria um novo.
 	 */
 
 	private static void createFileC(String file, boolean del) {

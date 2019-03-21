@@ -30,13 +30,14 @@ import java.util.stream.Collectors;
 public class TesteJava {
 
 	public static void main(String[] args) {
-		int met = Integer.parseInt(args[0]);
-
-		switch (met) {
-			case 1 : {
+		if (args.length>0) {
+			int met = Integer.parseInt(args[0]);
+			switch (met) {
+			case 1: {
 				String ret = " não é ";
-				boolean space = false;;
-				boolean cS =  false;
+				boolean space = false;
+				;
+				boolean cS = false;
 				try {
 					space = Boolean.parseBoolean(args[2].trim().toLowerCase());
 					cS = Boolean.parseBoolean(args[3].trim().toLowerCase());
@@ -44,75 +45,91 @@ public class TesteJava {
 					System.out.println("Parâmetro inválido para Teste 1.");
 					break;
 				}
-				
-				if (A(args[1],space,cS)) {
+
+				if (A(args[1], space, cS)) {
 					ret = " é ";
 				}
-				System.out.println(args[1] +  ret + "um palíndromo.");
+				System.out.println(args[1] + ret + "um palíndromo.");
 				break;
 			}
-			case 2 : {
+			case 2: {
 				try {
 					int k = Integer.parseInt(args[1]);
-					int [] a = new int[k];
-					
+					int[] a = {};
+
 					if (args.length > 3) {
-						for (int i = 0; i + 2 < args.length; i++) {
+						a = new int[args.length - 2];
+						for (int i = 0; i < args.length - 2; i++) {
 							a[i] = Integer.parseInt(args[i + 2]);
-						} 
+						}
 					} else if (args.length == 3) {
 						String file = args[2];
 						if (!file.contains("\\\\")) {
 							file.replace("\\", "\\\\");
 						}
-						try (BufferedReader b = new BufferedReader(new FileReader(new File(file)))) { 
-							String line = "";							
-							String[] aS;							
+						try (BufferedReader b = new BufferedReader(new FileReader(new File(file)))) {
+							String line = "";
+							String[] aS;
 							while ((line = b.readLine()) != null) {
 								aS = line.split(" ");
+								a = new int[aS.length];
 								int i = 0;
 								for (String s : aS) {
 									a[i] = Integer.parseInt(s);
 									i++;
 								}
-							} 
-								
+							}
+
 						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
+							System.out.println("Parâmetro inválido para Teste 2: "+e.getMessage());
+							break;
 						}
-						
-					} else {						
+
+					} else {
 						throw new Exception();
 					}
-					List<Par> p = B(a,k);
-					for (Par i : p) {
-						System.out.println(i.getI() + " - " + i.getJ());
+					List<Par> p = B(a, k);
+					if (p.size()>0) {
+						for (Par i : p) {
+							System.out.println(i.getI() + " - " + i.getJ());
+						} 
+					} else {
+						System.out.print("Não há pares para "+k+ " em [ ");
+						for(int i : a) {
+							System.out.print(i+ " ");
+						}
+						System.out.println("]");
 					}
 					break;
-					
+
 				} catch (Exception e) {
 					System.out.println("Parâmetro inválido para Teste 2.");
 					break;
-				}				
-				
-			}
-			case 3 : {
-				
-				HashMap<String, Integer> ret = C(args[1]);;
-				for (String name: ret.keySet()){
+				}
 
-					String key =name.toString();
-					String value = ret.get(name).toString();  
-					System.out.println(key + " " + value);
+			}
+			case 3: {
+
+				if (args.length>1) {
+					HashMap<String, Integer> ret = C(args[1]);
+					for (String name : ret.keySet()) {
+
+						String key = name.toString();
+						String value = ret.get(name).toString();
+						System.out.println(key + " " + value);
+					} 
+				}else {
+					System.out.println("Parâmetro inválido para Teste 3.");
 				}
 				break;
 			}
-			default : {
+			default: {
 				System.out.println("Erro de parâmetro.");
 			}
-			
+
+			}
+		} else {
+			System.out.println("Erro de parâmetro.");
 		}
 
 	}
