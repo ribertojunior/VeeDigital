@@ -30,39 +30,39 @@ import java.util.stream.Collectors;
 public class TesteJava {
 
 	public static void main(String[] args) {
-		if (args.length>0) {
-			int met = Integer.parseInt(args[0]);
+		if (args.length>0) { // não há argumentos
+			int met = Integer.parseInt(args[0]); //qual teste será executado
 			switch (met) {
-			case 1: {
-				String ret = " não é ";
+			case 1: { //teste 1
+				String ret = " não é "; // montando saída de texto
 				boolean space = false;
 				;
 				boolean cS = false;
 				try {
-					space = Boolean.parseBoolean(args[2].trim().toLowerCase());
+					space = Boolean.parseBoolean(args[2].trim().toLowerCase()); //recebendo argumetos booleanos
 					cS = Boolean.parseBoolean(args[3].trim().toLowerCase());
 				} catch (Exception e) {
 					System.out.println("Parâmetro inválido para Teste 1.");
 					break;
 				}
 
-				if (A(args[1], space, cS)) {
+				if (A(args[1], space, cS)) { //se A retornar true, args[1] é um palíndromo
 					ret = " é ";
 				}
 				System.out.println(args[1] + ret + "um palíndromo.");
 				break;
 			}
-			case 2: {
+			case 2: { //teste 2
 				try {
-					int k = Integer.parseInt(args[1]);
+					int k = Integer.parseInt(args[1]); // k para comparação
 					int[] a = {};
 
-					if (args.length > 3) {
+					if (args.length > 3) { // se há mais de 3 argumentos o array foi digitado como argumento elemento a elemento
 						a = new int[args.length - 2];
 						for (int i = 0; i < args.length - 2; i++) {
 							a[i] = Integer.parseInt(args[i + 2]);
 						}
-					} else if (args.length == 3) {
+					} else if (args.length == 3) { //se há três argumentos o array foi passado como arquivo
 						String file = args[2];
 						if (!file.contains("\\\\")) {
 							file.replace("\\", "\\\\");
@@ -88,8 +88,8 @@ public class TesteJava {
 					} else {
 						throw new Exception();
 					}
-					List<Par> p = B(a, k);
-					if (p.size()>0) {
+					List<Par> p = B(a, k); // B retorna um list dos pares complementares de k
+					if (p.size()>0) { //se há algo na lista, vamos mostrar
 						for (Par i : p) {
 							System.out.println(i.getI() + " - " + i.getJ());
 						} 
@@ -110,8 +110,8 @@ public class TesteJava {
 			}
 			case 3: {
 
-				if (args.length>1) {
-					HashMap<String, Integer> ret = C(args[1]);
+				if (args.length>1) { // se não há mais de uma argumentos o método foi chamado sem o arquivo
+					HashMap<String, Integer> ret = C(args[1]); // C retorna uma hash com as frase mais frequentes
 					for (String name : ret.keySet()) {
 
 						String key = name.toString();
@@ -146,15 +146,15 @@ public class TesteJava {
 		int half = 0;		
 		int half2 = 0;
 
-		if (!space) {
+		if (!space) { // testa se deve remover os espaços, se space for false, então remove os espaços
 			a = a.trim();
 			a = a.replaceAll("\\s+","");
 		}
 
-		if (!caseSensitive)
+		if (!caseSensitive) // se case for false, ignora as caixas deixando tudo em caixa baixa
 			a = a.toLowerCase();
 
-		if (a.length() % 2 == 0) {
+		if (a.length() % 2 == 0) { //testa se o núremo de elementos é par ou impar para poder escolher onde dividir a string
 			half = a.length() / 2;
 			half2 = half;	
 		} else {
@@ -162,15 +162,16 @@ public class TesteJava {
 			half2 = half + 1;
 		}
 
-		List<Character> aList1 = a.substring(0,half).chars().mapToObj(e -> (char) e).collect(Collectors.toList());
-		List<Character> aList2 = a.substring(half2,a.length()).chars().mapToObj(e -> (char) e).collect(Collectors.toList());
+		List<Character> aList1 = a.substring(0,half).chars().mapToObj(e -> (char) e).collect(Collectors.toList()); // primeira metade da string
+		List<Character> aList2 = a.substring(half2,a.length()).chars().mapToObj(e -> (char) e).collect(Collectors.toList()); // segunda metade da string
+		
 		for (Character c : aList1) {
-			if (aList2.contains(c)) {
+			if (aList2.contains(c)) { // testa se a segunda metade contém caracteres da primeira, se sim o remove da segunda metade
 				aList2.remove(c);
 			}
 		}
 
-		if (aList2.size()==0) {
+		if (aList2.size()==0) { // se a metade segunda metade terminar vazia temos uma palíndromo
 			return true;
 		}
 
@@ -188,11 +189,18 @@ public class TesteJava {
 	 * @return List de Par - uma lista dos pares complementares.
 	 */
 	public static List<Par> B(int[] a, int k) {
-		Arrays.sort(a);
-		int i = 0;
-		int j = a.length - 1;
+		Arrays.sort(a); //ordena o array
+		int i = 0; // indice do inicio do array
+		int j = a.length - 1; // indice do fim
 		int soma = 0;
-		List<Par> ret = new ArrayList<Par>();		
+		List<Par> ret = new ArrayList<Par>();
+		/**
+		 * Esse algoritmo testa a soma das extremidades do array, se igual adiciona o Par no retorno,
+		 * e avança as duas extremidades do vetor. 
+		 * Se for menor, avança apenas o índice do início (que contem o menor valor), aumentando o valor da soma.
+		 * Se for maior, avança apenas o índice do fim (que contem o maior valor), diminuindo o valor da soma.
+		 * Até os índices se encontrarem. 
+		 */
 		while ( i < j) {
 			soma  = a[i] + a[j];
 			if (soma == k) {
@@ -224,9 +232,10 @@ public class TesteJava {
 			String[] phrases;
 
 			while ((line = b.readLine()) != null) { 
-				phrases = line.split("\\|");
-				pHM = arrayAsMap(pHM, phrases);
+				phrases = line.split("\\|"); // divide as frases usando o token |
+				pHM = arrayAsMap(pHM, phrases); // adciona as frase no Hash contando sua frequencia
 
+				// ordena o hash pelos valores (que são a frequencia de cada frase)
 				pHM = pHM.entrySet().stream()
 						.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
 						.collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) ->
@@ -234,9 +243,7 @@ public class TesteJava {
 
 
 				if (pHM.size()>50000) {
-					pHM.keySet().removeAll(Arrays.asList(pHM.keySet().toArray()).subList(50, pHM.size()));
-
-
+					pHM.keySet().removeAll(Arrays.asList(pHM.keySet().toArray()).subList(50001, pHM.size())); // remove os itens que estão além dos 50 k
 				}
 
 
@@ -261,10 +268,10 @@ public class TesteJava {
 	protected static HashMap<String, Integer> arrayAsMap( HashMap<String, Integer> ret, String[] array) {
 		//HashMap<String, Integer> ret = new HashMap<String, Integer>();
 		for (int i = 0; i<array.length; i++) {
-			if (ret.containsKey(array[i])){
-				ret.replace(array[i], ret.get(array[i])+1);
-			} else {
-				ret.put(array[i], 1);
+			if (ret.containsKey(array[i])){ // se o hash contem a frase
+				ret.replace(array[i], ret.get(array[i])+1); //substitui com +1 no valor, ou seja, mais uma repetição da frase
+			} else { //se ainda não havia a frase
+				ret.put(array[i], 1); //a adiciona com frequencia 1
 			}
 		}
 		return ret;

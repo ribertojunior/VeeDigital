@@ -70,7 +70,7 @@ class TesteJavaUnitTest  {
 		}
 
 	}
-	
+
 	/**
 	 * Testa o metodo que resolve a questão 1 com frases
 	 */
@@ -167,7 +167,7 @@ class TesteJavaUnitTest  {
 	 */
 	@Test
 	void testC() {
-		
+
 		String file = "C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_c.txt";
 		createFileC(file, false);
 		//createFileC(file, true);
@@ -193,20 +193,48 @@ class TesteJavaUnitTest  {
 		assertNotNull(ret);
 		assertFalse(ret.size()==0);
 	}
+
 	
+	/**
+	 * Testa chamadas pro Main de TesteJava 
+	 */
 	@Test
 	void testMain() {
 		TesteJava.main(new String[]{"1","ovo e ovo", "false", "false"});
 		TesteJava.main(new String[]{"1"});
-		
+
 		TesteJava.main(new String[]{"2","3","C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_b.txt"});
 		TesteJava.main(new String[]{"2"});
-		
+
 		TesteJava.main(new String[]{"3","C:\\Users\\riber\\git\\VeeDigital\\src\\file\\arq_c.txt"});
 		TesteJava.main(new String[]{"3"});
 	}
+
+	/**
+	 * Teste remoção do final do hash 
+	 */
+	@Test
+	void testHashSize() {
+		HashMap<String, Integer> pHM = new HashMap<String, Integer>();
+
+		int i =0;
+		while (i<60000) { 
+
+			pHM.put("a"+i, i);
+
+
+
+
+			if (pHM.size()>50050) {
+				pHM.keySet().removeAll(Arrays.asList(pHM.keySet().toArray()).subList(50001, pHM.size())); // remove os itens que estão além dos 50 k
+			}
+			i++;
+		}
 	
-	
+
+	}
+
+
 	/**
 	 * Método auxiliar para criação de um arquivo texto grande
 	 * @param <b>file</b> nome desejado para o arquivo
@@ -225,7 +253,7 @@ class TesteJavaUnitTest  {
 							(new FileOutputStream(file), "UTF-8")), false);
 			String line = "";
 			String pos = '|'+"";
-			
+
 			for (int j = 0; j < 100000; j++) {
 				line = "";
 				pos = '|'+"";
@@ -244,14 +272,14 @@ class TesteJavaUnitTest  {
 				writer.println(line);
 			}
 			writer.close();
-			
+
 		} catch (UnsupportedEncodingException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	
+
 	/**
 	 * @author riber
 	 * stub de <b>TesteJava</b>
@@ -276,13 +304,13 @@ class TesteJavaUnitTest  {
 				pos = '|'+"";
 				for (int k = 0; k< 50; k++) {
 					buffer = new StringBuilder(targetStringLength);
-					
+
 					for (int j = 0; j < targetStringLength; j++) {
 						int randomLimitedInt = leftLimit + (int) 
 								(random.nextFloat() * (rightLimit - leftLimit + 1));
 						buffer.append((char) randomLimitedInt);
 					}
-					
+
 					if (k==49) {
 						pos = "";
 					}
