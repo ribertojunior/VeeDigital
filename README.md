@@ -8,7 +8,7 @@ Para o teste 1 deve-se fornecer mais três argumentos: a palavra que se deseja te
 
 Os parâmetros do Teste 2 são possíveis em duas versões:<br> 
 - Na primeira, são dois parâmetros o número para qual se deve encontrar o complementar no array e o arquivo texto onde se encontra o array (em uma linha, com os elemntos separados por espaço).<br> 
-- Na segunda, temos o mesmo parâmetro doa primeira e em seguida k parâmetros, sendo cada um elemento do array.
+- Na segunda, temos o mesmo primeiro parâmetro da primeira e em seguida n parâmetros, sendo cada um elemento do array de n elementos.
 
 Para o Teste 3 temos apenas um parâmetro com o endereço local do arquivo a ser analisado.
 
